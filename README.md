@@ -19,7 +19,7 @@ This is a [Medium](https://medium.com) clone built using [React.js](https://reac
 - Clap a story
 
 ### Installation
-* Git clone this repo [here](https://github.com/krissnawat/medium-clone-on-node).
+* Git clone this repo [here](https://github.com/khangpropk123/cybers-web.git).
 * Move into the folder from your terminal:
 ```sh
     cd cybers-web
