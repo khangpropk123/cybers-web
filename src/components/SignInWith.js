@@ -15,18 +15,18 @@ class SignInWith extends Component {
 
     render() {
     const responseGoogle = (res) => {
-        let postData = {
-            name: res.w3.ig,
-            provider: 'google',
-            email: res.w3.U3,
-            provider_id: res.El,
-            token: res.Zi.access_token,
-            provider_pic: res.w3.Paa
-        }
-        console.log(postData)
+        // let postData = {
+        //     name: res.w3.ig,
+        //     provider: 'google',
+        //     email: res.w3.U3,
+        //     provider_id: res.El,
+        //     token: res.Zi.access_token,
+        //     provider_pic: res.w3.Paa
+        // }
+        console.log(res)
         // build our user data
-        this.props.SignInUser(postData)
-        this.props.toggleClose()
+        // this.props.SignInUser(postData)
+        // this.props.toggleClose()
     }
     const responseFacebook = (res) => {
         let postData = {

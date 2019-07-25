@@ -191,7 +191,7 @@ class ArticleView extends Component {
                         </div> }
 
                         <h3 className="title">{title}</h3>
-                        <div className="body" style={{margin:'0 auto',fontFamily:'medium-content-serif-font, Georgia, Cambria, "Times New Roman", Times, serif;'}}>
+                        <div className="body" style={{ margin:'0 auto',fontFamily:'medium-content-serif-font, Georgia, Cambria, "Times New Roman", Times, serif;'}}>
                             <p></p>
                             <p style={{fontSize:"20px"}} className="" dangerouslySetInnerHTML={{__html: text}}>
                             </p>
@@ -233,7 +233,7 @@ class ArticleView extends Component {
                                 <img alt={author_name} className="avatar-image" src={author_img} height="50" width="50" />
                                 <div className="username-description">
                                     <h4>{author_name}</h4>
-                                    <p></p>
+                                    <p>Author</p>
                                 </div>
                             </div>
                             {this.props.user ? <FollowButton user={`${this.props.user.following}`} to_follow={`${author_id}`} /> : ''}
