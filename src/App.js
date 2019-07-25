@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Header from './components/Header';
 import { Switch, Route } from 'react-router-dom'
-
 import Feed from './components/Feed'
 import Profile from './components/Profile'
 import ArticleView from './components/ArticleView'
@@ -31,6 +30,7 @@ class App extends Component {
                     <Route path="/edit-article/:id" component={requireAuthentication(EditArticle)} />
                     <Route path="**" component={Feed} />
                 </Switch>
+               
             </div>
         );
     }

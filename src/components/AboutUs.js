@@ -38,6 +38,9 @@ const useStyles = makeStyles(theme => ({
   avatar: {
     backgroundColor: '#42f584',
   },
+  title:{
+    fontSize: '30pt'
+  }
 }));
 
 export default function RecipeReviewCard() {
@@ -50,14 +53,14 @@ export default function RecipeReviewCard() {
 
   return (
     <Card className={classes.card}>
-      <CardHeader
+      <CardHeader 
         avatar={
-          <Avatar aria-label="Cyber Team S" className={classes.avatar}>
+          <Avatar sizes="large" aria-label="Cyber Team S" className={classes.avatar}>
             CyberS
           </Avatar>
         }
         action={
-          <IconButton aria-label="Settings">
+          <IconButton  aria-label="Settings">
             <MoreVertIcon />
           </IconButton>
         }

@@ -83,7 +83,7 @@ function ItemList ({items}) {
                     </div>
 
 
-                    {article.feature_img.length > 0 ? <div className="post-picture-wrapper">
+                    {article.feature_img != null? <div className="post-picture-wrapper">
                         <img src={article.feature_img} alt="alt"/>
                     </div> : ''}
 
