@@ -11,22 +11,23 @@ const cloudinary = require('cloudinary')
 const app = express()
 const router = express.Router()
 //const url = process.env.MONGODB_URI || "mongodb://localhost:27017/medium"
-const url ="mongodb://alc:alc@ds237855.mlab.com:37855/alc"
+const url ="mongodb+srv://dbmedium:dbPassword@cluster0-byup4.mongodb.net/test?retryWrites=true&w=majority"
 
 /** configure cloudinary */
 cloudinary.config({
-    cloud_name: 'chidumennamdi',
-    api_key: '392481138676646',
-    api_secret: '6vN978wHnfEr21pKrysWuu7_0UI'
+    cloud_name: 'uitiititc',
+    api_key: '194386728788554',
+    api_secret: 'yMzmB3ntSm7R9xBd1M_tjubFUo0'
 })
 
 /** connect to MongoDB datastore */
 try {
     mongoose.connect(url, {
         //useMongoClient: true
-    })    
+    })   
+    console.log("Okieee")
 } catch (error) {
-    
+    console.log(error)
 }
 
 let port = process.env.PORT || 5000

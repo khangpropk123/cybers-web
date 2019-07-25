@@ -9,7 +9,8 @@ const cloudinary = require('cloudinary')
 
 const app = express()
 const router = express.Router()
-const url = "mongodb://127.0.0.1:27017/medium"
+//const url = "mongodb://127.0.0.1:27017/medium"
+const url ="mongodb+srv://dbmedium:dbPassword@cluster0-byup4.mongodb.net/test?retryWrites=true&w=majority"
 
 /** configure cloudinary */
 cloudinary.config({
