@@ -69,68 +69,68 @@ class Editor extends Component {
 
   componentDidMount () {
            
-            const editor = new MediumEditor(/*dom, */".medium-editable",{ 
-              autoLink: true,
-              delay: 1000,
-              targetBlank: true,
+              const editor = new MediumEditor(/*dom, */".medium-editable",{ 
+                autoLink: true,
+                delay: 1000,
+                targetBlank: true,
+                toolbar: {
+                    buttons: [
+                      'bold', 
+                      'italic', 
+                      'quote', 
+                      'underline', 
+                      'anchor', 
+                      'h1',
+                      'h2', 
+                      'h3',
+                      'h4',
+                      'h5',
+                      'h6',
+                      'strikethrough',
+                      'subscript',
+                      'superscript',
+                      'pre',
+                      'image',
+                      'html',
+                      'justifyCenter'
+                    ],
+                    diffLeft: 25,
+                    diffTop: 10,
+                },
+                anchor: {
+                    placeholderText: 'Type a link',
+                    customClassOption: 'btn',
+                    customClassOptionText: 'Create Button'
+                },
+                paste: {
+                    cleanPastedHTML: true,
+                    cleanAttrs: ['style', 'dir'],
+                    cleanTags: ['label', 'meta'],
+                    unwrapTags: ['sub', 'sup']
+                },
+                anchorPreview: {
+                    hideDelay: 300
+                },
+                placeholder: {
+                    text: 'Tell your story...'
+                }
+              /*
+              placeholder: { text: "Tell your Story ...", hideOnClick: true },
               toolbar: {
-                  buttons: [
-                    'bold', 
-                    'italic', 
-                    'quote', 
-                    'underline', 
-                    'anchor', 
-                    'h1',
-                    'h2', 
-                    'h3',
-                    'h4',
-                    'h5',
-                    'h6',
-                    'strikethrough',
-                    'subscript',
-                    'superscript',
-                    'pre',
-                    'image',
-                    'html',
-                    'justifyCenter'
-                  ],
-                  diffLeft: 25,
-                  diffTop: 10,
-              },
-              anchor: {
-                  placeholderText: 'Type a link',
-                  customClassOption: 'btn',
-                  customClassOptionText: 'Create Button'
-              },
-              paste: {
-                  cleanPastedHTML: true,
-                  cleanAttrs: ['style', 'dir'],
-                  cleanTags: ['label', 'meta'],
-                  unwrapTags: ['sub', 'sup']
-              },
-              anchorPreview: {
-                  hideDelay: 300
-              },
-              placeholder: {
-                  text: 'Tell your story...'
-              }
-            /*
-            placeholder: { text: "Tell your Story ...", hideOnClick: true },
-            toolbar: {
-              buttons: ['bold', 'italic']
-            } */
-          })    
-          editor.subscribe('editableInput', (ev, editable) => {
-            if(typeof document !== 'undefined'){
-              
-              this.setState({
-                title: document.getElementById('editor-title').value,
-                text: editor.getContent(0),
-                description: `${editor.getContent(0).substring(0,30).toString()}...`
+                buttons: ['bold', 'italic']
+              } */
+            })    
+            editor.subscribe('editableInput', (ev, editable) => {
+              if(typeof document !== 'undefined'){
+                
+                this.setState({
+                  title: document.getElementById('editor-title').value,
+                  text: editor.getContent(0),
+                  description: `${editor.getContent(0).substring(0,30).toString()}...`
+                })
+                }
+                console.log(this.state)
               })
-              }
-              console.log(this.state)
-            })
     
   }
     render() {
@@ -164,10 +164,10 @@ class Editor extends Component {
                 </div>
 
                 <div className="form-group">
-                  <textarea col="1" className="editor-title" id="editor-title" value={this.state.title} placeholder="Title"></textarea>
+                  <textarea col="1" className="editor-title" id="editor-title" placeholder="Title"></textarea>
                 </div>
 
-                <div className="form-group" style={{border:'1px solid black'}}>
+                <div className="form-group">
                   <textarea id="medium-editable" className="medium-editable" ></textarea>
                 </div>
 

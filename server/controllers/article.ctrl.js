@@ -6,6 +6,7 @@ const cloudinary = require('cloudinary')
 
 module.exports = {
     addArticle: (req, res, next) => {
+        console.log(req.body)
         let {
             text,
             title,
@@ -23,20 +24,6 @@ module.exports = {
                     feature_img: result.url != null ? result.url : ''
                 }
                 saveArticle(obj)
-                /*(new Student({...{url: result.url},...req.body})).save((err, newStudent) => {
-                const cloud_res = {
-                    url: result.url
-                }
-                const newS = newStudent.toObject()
-                console.log({...{url: result.url},...req.body})
-                if(err)
-                    res.send(err)
-                else if (!newStudent)
-                    res.send(400)
-                else
-                    res.send({...newS,...cloud_res})
-                next()
-            })*/
             }, {
                 resource_type: 'image',
                 eager: [{
@@ -149,9 +136,10 @@ module.exports = {
      * comment, author_id, article_id
      */
     commentArticle: (req, res, next) => {
+        console.log(req.body)
         Article.findById(req.body.article_id).then((article) => {
             return article.comment({
-                author: req.body.author_id,
+                author: req.body.name,
                 text: req.body.comment
             }).then(() => {
                 return res.json({
@@ -186,23 +174,43 @@ module.exports = {
             .catch(next)
     },
     updateArticle: (req, res, next) => {
-        let article = {
-            _text: req.params.article.text,
-            _title: req.params.article.title,
-            _decription: req.params.article.description,
-            _feature_img: req.params.article.feature_img
+        let img =''
+        let article = req.body
+        console.log(article.id)
+        if (req.files.image) {
+            cloudinary.uploader.upload(req.files.image.path, (result) => {
+                img=result.url
+                Article.findByIdAndUpdate(article.id, {
+                    text: article.text,
+                    title: article.title,
+                    description: article.decription,
+                    feature_img: img
+                }).then((status) => {
+                    console.log(status)
+                    res.send(status)
+                })
+                .catch(next)
+            }, {
+                resource_type: 'image',
+                eager: [{
+                    effect: 'sepia'
+                }]
+            })
         }
-
-        Article.findByIdAndUpdate(req.params.article._id, {
-                text: article._text,
-                title: article._title,
-                description: article._decription,
-                feature_img: article._feature_img
+        else{
+            img=article.image_link
+            Article.findByIdAndUpdate(article.id, {
+                text: article.text,
+                title: article.title,
+                description: article.decription,
+                feature_img: img
             }).then((status) => {
                 console.log(status)
                 res.send(status)
             })
             .catch(next)
-    }
+        }
+        
+     }
 
 }

@@ -13,7 +13,8 @@ class EditArticle extends Component {
       text: '',
       description: '',
       imgSrc: null,
-      loading: false
+      loading: false,
+      feature_img: '',
     }
     this.handleClick = this.handleClick.bind(this)
     this.previewImg = this.previewImg.bind(this)
@@ -27,26 +28,27 @@ class EditArticle extends Component {
     console.log(this.state)  
     console.log('publishing...')
     const _url = process.env.NODE_ENV === 'production' ? "/api/" : "http://localhost:5000/api/"
-    const formdata = new FormData()
-    formdata.append('text', this.state.text)
-    formdata.append('image', this.state.imgSrc)
-    formdata.append('title', document.getElementById('editor-title').value)
-    formdata.append('author_id', this.props.user._id)
-    formdata.append('description', this.state.description)
-    formdata.append('claps', 0)
-    axios.post(`${_url}article`, /*{
-      text: this.state.text,Z
-      title: document.getElementById('editor-title').value,
-      claps: 0,
-      description: this.state.description,
-      feature_img: this.state.imgSrc,
-      author_id: this.props.user._id
-    }*/formdata).then((res) => {
-      this.setState({
-        loading: false
-      })
-      console.log(res.data)
-    }).catch((err)=>{console.log(err); this.setState({loading: false})})
+  const formdata = new FormData()
+  formdata.append('id',this.props.match.params.id)
+  formdata.append('text', this.state.text)
+  formdata.append('image', this.state.imgSrc)
+  formdata.append('image_link',this.state.feature_img)
+  formdata.append('title', document.getElementById('editor-title').value)
+  formdata.append('description', this.state.description)
+  formdata.append('author_id',this.props.user._id)
+  axios.post(`${_url}update-article/`, /*{
+    text: this.state.text,Z
+    title: document.getElementById('editor-title').value,
+    claps: 0,
+    description: this.state.description,
+    feature_img: this.state.imgSrc,
+    author_id: this.props.user._id
+  }*/formdata).then((res) => {
+    this.setState({
+      loading: false
+    })
+    console.log(res.data)
+  }).catch((err)=>{console.log(err); this.setState({loading: false})})
   } 
 
   handleClick () {
@@ -73,10 +75,15 @@ class EditArticle extends Component {
         .then((res) => {
             let _article = res.data
             document.getElementById('image_preview').src = _article.feature_img
+            document.getElementById('editor-title').value = _article.title
             console.log(_article)
             this.setState({
-              //imgSrc: _article.feature_img,
+              imgSrc: _article.feature_img,
               title:_article.title,
+              description: _article.description,
+              text: _article.text,
+              feature_img:_article.feature_img
+
             })
             const editor = new MediumEditor(/*dom, */".medium-editable",{ 
               autoLink: true,
@@ -183,10 +190,10 @@ class EditArticle extends Component {
                 </div>
 
                 <div className="form-group">
-                  <textarea col="1" className="editor-title" id="editor-title" value={this.state.title} placeholder="Title"></textarea>
+                  <textarea col="1" className="editor-title" id="editor-title" /*value={this.state.title}*/ placeholder="Title"></textarea>
                 </div>
 
-                <div className="form-group" style={{border:'1px solid black'}}>
+                <div className="form-group">
                   <textarea id="medium-editable" className="medium-editable" ></textarea>
                 </div>
 
