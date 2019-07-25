@@ -30,7 +30,7 @@ module.exports = (router) => {
      */
     router
         .route('/article/comment')
-        .post(articlecontroller.commentArticle)
+        .post(multipartWare,articlecontroller.commentArticle)
 
     /**
      * get a particlular article to view
@@ -38,4 +38,12 @@ module.exports = (router) => {
     router
         .route('/article/:id')
         .get(articlecontroller.getArticle)
+
+    router
+        .route('/delarticle/:id')
+        .post(multipartWare,articlecontroller.deleteArticle)
+
+    router 
+        .route('/update-article/')
+        .post(multipartWare,articlecontroller.updateArticle)
 }

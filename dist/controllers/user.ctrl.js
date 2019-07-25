@@ -4,15 +4,29 @@ const Article = require('./../models/Article')
 
 module.exports = {
     addUser: (req, res, next) => {
-        new User(req.body).save((err, newUser) => {
-            if (err)
-                res.send(err)
-            else if (!newUser)
-                res.send(400)
-            else
-                res.send(newUser)
-            next()
-        });
+        User.findOne({email:req.body.email}).then((u)=>{
+            if(u){
+                u.token = req.body.token,
+                u.name = req.body.name,
+                u.save((err,newUser)=>{
+                    res.send(newUser)
+                })
+                }
+            else{
+                new User(req.body).save((err, newUser) => {
+                    if (err)
+                        res.send(err)
+                    else if (!newUser)
+                        res.send(400)
+                    else
+                        res.send(newUser)
+                    next()
+                });
+            }
+        })
+        .catch((err)=>{
+
+        })
     },
     getUser: (req, res, next) => {
         User.findById(req.params.id).then

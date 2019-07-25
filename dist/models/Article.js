@@ -14,7 +14,7 @@ let ArticleSchema = new mongoose.Schema(
         comments: [
             {
                 author: {
-                    type: mongoose.Schema.Types.ObjectId,
+                    type:mongoose.Schema.Types.ObjectId,
                     ref: 'User'
                 },
                 text: String
