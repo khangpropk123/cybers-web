@@ -3,6 +3,16 @@ const Article = require('./../models/Article')
 const User = require('./../models/User')
 const fs = require('fs')
 const cloudinary = require('cloudinary')
+const config = require('../settings/configs')
+const jwt = require('jsonwebtoken')
+const secret = config.secret
+
+function isAuth(token) {
+    jwt.verify(token, secret, (err, decoded) => {
+
+        return decoded
+    })
+}
 
 module.exports = {
     addArticle: (req, res, next) => {
@@ -146,7 +156,7 @@ module.exports = {
                     msg: "Done"
                 })
             })
-        }).catch(next)
+        }).catch(console.log)
     },
 
     /**
@@ -167,50 +177,70 @@ module.exports = {
 
     },
     deleteArticle: (req, res, next) => {
-        Article.findByIdAndDelete(req.params.id).then((status) => {
-                console.log(status)
-                res.send(status)
-            })
-            .catch(next)
+        console.log((req.params.token))
+        jwt.verify(req.params.token, secret, (err, decoded) => {
+            if (err)
+                res.send(config.err_mess)
+            else {
+                console.log(decoded)
+                Article.findOneAndDelete({
+                        _id: req.params.id,
+                        author: decoded._id
+                    }).then((status) => {
+                        console.log(status)
+                        res.send(status)
+                    })
+                    .catch(next)
+            }
+        })
+
     },
     updateArticle: (req, res, next) => {
-        let img =''
-        let article = req.body
-        console.log(article.id)
-        if (req.files.image) {
-            cloudinary.uploader.upload(req.files.image.path, (result) => {
-                img=result.url
-                Article.findByIdAndUpdate(article.id, {
-                    text: article.text,
-                    title: article.title,
-                    description: article.decription,
-                    feature_img: img
-                }).then((status) => {
-                    console.log(status)
-                    res.send(status)
-                })
-                .catch(next)
-            }, {
-                resource_type: 'image',
-                eager: [{
-                    effect: 'sepia'
-                }]
-            })
-        }
-        else{
-            img=article.image_link
-            Article.findByIdAndUpdate(article.id, {
-                text: article.text,
-                title: article.title,
-                description: article.decription,
-                feature_img: img
-            }).then((status) => {
-                console.log(status)
-                res.send(status)
-            })
-            .catch(next)
-        }
-        
-     }
+        console.log(req.body.token||"Nothing")
+        jwt.verify(req.body.token, secret, (err, decoded) => {
+            if (!err) {
+                let img = ''
+                let article = req.body
+                console.log(article.id)
+                if (req.files.image) {
+                    cloudinary.uploader.upload(req.files.image.path, (result) => {
+                        img = result.url
+                        Article.findOneAndUpdate({_id:article.id,author:decoded._id}, {
+                                text: article.text,
+                                title: article.title,
+                                description: article.decription,
+                                feature_img: img
+                            }).then((status) => {
+                                console.log(status)
+                                res.send(status)
+                            })
+                            .catch(next)
+                    }, {
+                        resource_type: 'image',
+                        eager: [{
+                            effect: 'sepia'
+                        }]
+                    })
+                } else {
+                    img = article.image_link
+                    Article.findOneAndUpdate({_id:article.id,author:decoded._id}, {
+                            text: article.text,
+                            title: article.title,
+                            description: article.decription,
+                            feature_img: img
+                        }).then((status) => {
+                            console.log(status)
+                            res.send(status)
+                        })
+                        .catch(next)
+                }
+            } else {
+                res.send(config.err_mess)
+            }
+        })
+
+
+
+    }
 
 }

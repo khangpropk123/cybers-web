@@ -1,15 +1,44 @@
 /** */
 const User = require('./../models/User')
 const Article = require('./../models/Article')
+const jwt = require('jsonwebtoken')
+const secret = "my_fucking_secret_string"
+function Authenticate(id){
+    var payload = {_id:id}
+        var jwtToken = jwt.sign(payload, "my_fucking_secret_string", { expiresIn: '2 days' });
+        var jsonResponse = {'access_token': jwtToken}
+        return jsonResponse
+};
+function isAuth(token){
+    jwt.verify(token,secret,(err,decoded)=>{
+        if(err)
+            return false
+        else
+        return decoded._id
+    })
+}
 
 module.exports = {
     addUser: (req, res, next) => {
         User.findOne({email:req.body.email}).then((u)=>{
             if(u){
+                console.log(isAuth(Authenticate(u._id).access_token))
                 u.token = req.body.token,
                 u.name = req.body.name,
                 u.save((err,newUser)=>{
-                    res.send(newUser)
+                    let response = {
+                        email: newUser.email,
+                        followers: newUser.followers,
+                        following: newUser.following,
+                        name: newUser.name,
+                        provider: newUser.provider,
+                        provider_id: newUser.provider_id,
+                        provider_pic: newUser.provider_pic,
+                        token: newUser.token,
+                        _id: newUser._id,
+                        jwtToken: Authenticate(newUser._id)
+                    }
+                    res.send(response)
                 })
                 }
             else{
@@ -18,9 +47,22 @@ module.exports = {
                         res.send(err)
                     else if (!newUser)
                         res.send(400)
-                    else
-                        res.send(newUser)
+                    else{
+                        let response = {
+                            email: newUser.email,
+                            followers: newUser.followers,
+                            following: newUser.following,
+                            name: newUser.name,
+                            provider: newUser.provider,
+                            provider_id: newUser.provider_id,
+                            provider_pic: newUser.provider_pic,
+                            token: newUser.token,
+                            _id: newUser._id,
+                            jwtToken: Authenticate(newUser._id)
+                        }
+                        res.send(response)
                     next()
+                    }
                 });
             }
         })
@@ -35,9 +77,10 @@ module.exports = {
                 res.send(err)
             else if (!user)
                 res.send(404)
-            else
-                res.send(user)
-            next()            
+            else{
+            next() 
+            }
+                      
         })
     },
     /**

@@ -29,6 +29,13 @@
    text-align: right;
    margin-right: 20px;
 }
+.btn-login-comment{
+   text-align: center;
+   padding-top: 50px;
+}
+div.btn-login-comment:hover{
+   cursor: pointer;
+}
 
 div.btn-right:hover{
    cursor: pointer;

@@ -40,7 +40,7 @@ module.exports = (router) => {
         .get(articlecontroller.getArticle)
 
     router
-        .route('/delarticle/:id')
+        .route('/delarticle/:id/:token')
         .post(multipartWare,articlecontroller.deleteArticle)
 
     router 

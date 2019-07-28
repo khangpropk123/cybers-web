@@ -50,20 +50,35 @@ export function getArticle (article_id) {
         }).catch((err) => console.log(err))
     }
 }
-export function deleteArticle (article_id) {
+export function deleteArticle (article_id,token) {
     return (dispatch) => {
-        axios.post(`${url}delarticle/${article_id}`)
+        axios.post(`${url}delarticle/${article_id}/${token}`)
         .then((res) => {
             let article = res.data
+            try {
+                if(res.data.flag){
+                    localStorage.clear()
+                }
+            } catch (error) {
+                
+            }
             dispatch({type: 'VIEW_ARTICLE', article})
         }).catch((err) => console.log(err))
     }
 }
-export function updateArticle (article) {
+export function updateArticle (article,token) {
     return (dispatch) => {
-        axios.post(`${url}updatearticle/${article}`)
+        axios.post(`${url}updatearticle/${article}/`)
         .then((res) => {
             let _article = res.data
+            try {
+                if(res.data.flag){
+                    localStorage.clear()
+                }
+            } catch (error) {
+                
+            }
+            console.log(res.data)
             dispatch({type: 'VIEW_ARTICLE', _article})
         }).catch((err) => console.log(err))
     }

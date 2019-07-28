@@ -1,4 +1,5 @@
 const usercontroller = require('./../controllers/user.ctrl')
+const middlewares = require('./../middlewares/middlewares')
 
 module.exports = (router) => {
 

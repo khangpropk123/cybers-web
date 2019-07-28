@@ -34,9 +34,9 @@ class Feed extends Component {
                         </div>
                     </div>
 
-                    {article.feature_img !=null ? <div class="post-picture-wrapper">
+                    {article.feature_img !=="" ? <div class="post-picture-wrapper">
                         <img src={article.feature_img} alt="Thumb" />
-                    </div>:''}
+                    </div> : ''}
 
                     <div className="main-body">
                         <h3 className="post-title"><a href={`/articleview/${article._id}`} >{article.title}</a></h3>

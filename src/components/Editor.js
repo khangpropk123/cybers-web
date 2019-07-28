@@ -92,7 +92,7 @@ class Editor extends Component {
                       'pre',
                       'image',
                       'html',
-                      'justifyCenter'
+                      'justifyCenter',
                     ],
                     diffLeft: 25,
                     diffTop: 10,

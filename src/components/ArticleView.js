@@ -14,6 +14,7 @@ import FollowButton from './FollowButton'
 import './../../node_modules/medium-editor/dist/css/medium-editor.min.css'
 import '../assets/article.css'
 const _url = process.env.NODE_ENV === 'production' ? "/api/" : "http://localhost:5000/api/"
+
 const mapStateToProps = state => {
     return {
         _article: state.articles.article,
@@ -35,12 +36,12 @@ class ArticleView extends Component {
         this.handelComment=this.handelComment.bind(this)
         this.countComments = this.countComments.bind(this)
         this.showComments = this.showComments.bind(this)
+        this.loginOnComment = this.loginOnComment.bind(this)
     }
     sucsNofi = ()=>toast("Thanks For Your Comment!!!")
     componentDidMount() {
         if(this.props.user._id !=null)
-            document.getElementById("editor-title").value = this.props.user.name
-            document.getElementById("editor-title").readonly = "True"
+            document.getElementById("editor-title").value = this.props.user.name||""
         document.body.className = 'posts show'
         const editor = new MediumEditor(/*dom, */".medium-editable",{ 
             autoLink: true,
@@ -138,7 +139,7 @@ class ArticleView extends Component {
       else{
         const formdata = new FormData()
         formdata.append('article_id',this.props.match.params.id)
-        formdata.append('name',this.props.user._id)
+        formdata.append('name',this.props.user._id||document.getElementById("editor-title").value)
         formdata.append('comment',comment)
         axios.post(`${_url}article/comment/`, /*{
     text: this.state.text,Z
@@ -153,6 +154,9 @@ class ArticleView extends Component {
     console.log(res.data)
   }).catch((err)=>{})
       }
+    }
+    loginOnComment(){
+        document.getElementById("login").click()
     }
     componentWillUnmount() {
         document.body.className = ''
@@ -245,7 +249,7 @@ class ArticleView extends Component {
                         <div className="boder-comment">
                            {this.showComments(this.props._article.comments)}
                         </div>
-                        <div>
+                        {this.props.isAuth?<div>
                         <form className="editor-form main-editor" autocomplete="off"  style={{paddingLeft:'20px'}}>
 
                                                 <div className="form-group">
@@ -260,7 +264,9 @@ class ArticleView extends Component {
                                                 </div>
 
                         </form>
-                                </div>
+                        </div>:<div className="btn-login-comment" onClick={()=>{console.log("Ok")}}>
+                                                    <a onClick={this.loginOnComment} className="button green-border-button follow-button" >Login to Comment!</a>
+                                                </div>}
                     </div>
                 </div>
 

@@ -36,6 +36,7 @@ class EditArticle extends Component {
   formdata.append('title', document.getElementById('editor-title').value)
   formdata.append('description', this.state.description)
   formdata.append('author_id',this.props.user._id)
+  formdata.append('token',JSON.parse(localStorage.getItem("Auth")).jwtToken.access_token)
   axios.post(`${_url}update-article/`, /*{
     text: this.state.text,Z
     title: document.getElementById('editor-title').value,
@@ -48,6 +49,12 @@ class EditArticle extends Component {
       loading: false
     })
     console.log(res.data)
+    try {
+      if(res.data.flag)
+        localStorage.clear();
+    } catch (error) {
+      
+    }
   }).catch((err)=>{console.log(err); this.setState({loading: false})})
   } 
 

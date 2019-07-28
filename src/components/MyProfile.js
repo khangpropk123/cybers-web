@@ -20,7 +20,7 @@ class MyProfile extends Component {
     }
     componentWillMount() {
         let id = JSON.parse(localStorage.getItem("Auth"));
-        console.log(id)
+        console.log(JSON.parse(localStorage.getItem("Auth")).jwtToken.access_token || "ff")
         this.props.getUserProfile(id._id)
     }
     render() {
@@ -118,7 +118,7 @@ function ItemList ({items}) {
                             </div>
                             <div className="like-button-wrapper">
                                 <form className="button_to" method="get" action="">
-                                    <button onClick={deleteArticle(article._id)} className="like-button" data-behavior="trigger-overlay" type="submit"><i className="fa fa-trash-o"></i><span className="hide-text">Delete</span></button>
+                                    <button onClick={deleteArticle(article._id,JSON.parse(localStorage.getItem("Auth")).jwtToken.access_token||"")} className="like-button" data-behavior="trigger-overlay" type="submit"><i className="fa fa-trash-o"></i><span className="hide-text">Delete</span></button>
                                 </form>
                                 <span className="like-count">Delete</span>
 

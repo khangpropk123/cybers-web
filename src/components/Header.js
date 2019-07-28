@@ -42,7 +42,8 @@ class Header extends Component {
                 <ul className="nav navbar-nav navbar-right">
                 {this.props.isAuth ? <li className="new-post-button"><a className="button" data-behavior="trigger-overlay" href="/mypage">My Profile</a></li> : ''}
                     {this.props.isAuth ? <li className="new-post-button"><a className="button" data-behavior="trigger-overlay" href="/editor">Write a story</a></li> : ''}
-                    {this.props.isAuth ? '' : <li onClick={this.props.openSignInWith} className="sign-in-button"><a className="button green-border-button" data-behavior="trigger-overlay" href="#">Sign in / Sign up</a></li>}
+                    {this.props.isAuth ? '' : <li id="login" onClick={this.props.openSignInWith} className="sign-in-button"><a className="button green-border-button" data-behavior="trigger-overlay" href="#">Sign in / Sign up</a></li>}
+                    {this.props.isAuth ?  <li id="logout" onClick={()=>{localStorage.clear();window.location.reload();}} className="sign-in-button"><a className="button green-border-button" data-behavior="trigger-overlay" href="#">Log Out!</a></li>:''}
                 </ul>
             </div>
 
