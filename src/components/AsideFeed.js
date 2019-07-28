@@ -4,7 +4,7 @@ class AsideFeed extends Component {
     render () {
         const authors = this.props._articles
             .map((_article)=> {
-                    return _article.author.name
+                    return {name:_article.author.name,id:_article.author._id}
                 }
             )
             .sort()
@@ -12,13 +12,13 @@ class AsideFeed extends Component {
                 return self.indexOf(a) === b
             })
             .map((__article)=>
-                <a href='javascript:void(0);' className="tag">{__article}</a>
+                <a href={`/profile/${__article.id}`} className="tag">{__article.name}</a>
             )
         const top_articles = this.props._articles.map((_article, i)=>
 
                     <li className="top-stories-list-item">
                         <div className="count-button-wrapper">
-                            <span className="count-button">{i}</span>
+                            <span className="count-button">{i+1}</span>
                         </div>
                         <div className="top-stories-links">
                             <a className="post-title" href={`/articleview/${_article._id}`}>{_article.title}</a><br/>
