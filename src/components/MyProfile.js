@@ -123,7 +123,13 @@ function ItemList ({items}) {
                                 <span className="like-count">Delete</span>
 
                             </div>
+                            <div className="like-button-wrapper">
+                                <form className="button_to" method="get" action="">
+                                    <button onClick={deleteArticle(article._id,JSON.parse(localStorage.getItem("Auth")).jwtToken.access_token||"")} className="like-button" data-behavior="trigger-overlay" type="submit"><i className="fa fa-plus-circle"></i><span className="hide-text">Add to series</span></button>
+                                </form>
+                                <span className="like-count">Add to series</span>
 
+                            </div>
                         <div className="response-count pull-right">
                             <a className="response-count" href="javascript:void(0);">0 responses</a>
                         </div>

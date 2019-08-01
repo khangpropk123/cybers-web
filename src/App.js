@@ -10,6 +10,7 @@ import SignInWith from './components/SignInWith'
 import AboutUs from './components/AboutUs'
 import MyProfile from './components/MyProfile'
 import EditArticle from './components/EditArticle'
+import Series from './components/Series'
 //import  from './component'
 
 class App extends Component {
@@ -24,6 +25,7 @@ class App extends Component {
                     <Route exact path="/" component={Feed} />
                     <Route path="/aboutus" component={AboutUs}/>
                     <Route path="/profile/:id" component={Profile} />
+                    <Route path="/series" component={Series}/>
                     <Route path="/mypage" component={requireAuthentication(MyProfile)}/> 
                     <Route path="/articleview/:id" component={ArticleView} />
                     <Route path="/editor/" component={requireAuthentication(Editor)} />
