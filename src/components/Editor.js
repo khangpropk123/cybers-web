@@ -126,7 +126,7 @@ class Editor extends Component {
                 this.setState({
                   title: document.getElementById('editor-title').value,
                   text: editor.getContent(0),
-                  description: `${editor.getContent(0).substring(0,30).toString()}...`
+                  description: `${editor.getContent(0).substring(0,400).toString()}...`
                 })
                 }
                 console.log(this.state)

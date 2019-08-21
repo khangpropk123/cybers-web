@@ -66,6 +66,32 @@ export function deleteArticle (article_id,token) {
         }).catch((err) => console.log(err))
     }
 }
+export function addSerie(id,article_id) {
+    return (dispatch) => {
+        axios.post(`${url}add-serie/${id}/${article_id}`)
+        .then((res) => {
+            let article = res.data
+            try {
+                if(res.data.flag){
+                    localStorage.clear()
+                }
+            } catch (error) {
+                
+            }
+            dispatch({type: 'VIEW_ARTICLE', res})
+        }).catch((err) => console.log(err))
+    }
+}
+export function getSeries () {
+    return (dispatch) => {
+        axios.get(`${url}get-all`)
+        .then((res) => {
+            let series= res.data
+            console.log(series)
+            dispatch({type: 'LOAD_SERIES',series})
+        }).catch((err) => console.log(err))
+    }
+}
 export function updateArticle (article,token) {
     return (dispatch) => {
         axios.post(`${url}updatearticle/${article}/`)

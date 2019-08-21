@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken')
 const secret = "my_fucking_secret_string"
 function Authenticate(id){
     var payload = {_id:id}
-        var jwtToken = jwt.sign(payload, "my_fucking_secret_string", { expiresIn: '2 days' });
+        var jwtToken = jwt.sign(payload, "my_fucking_secret_string", { expiresIn: '30 days' });
         var jsonResponse = {'access_token': jwtToken}
         return jsonResponse
 };
@@ -92,7 +92,7 @@ module.exports = {
                 return res.json({msg: "followed"})
             })
         }).catch(next)
-    },
+    },  
     getUserProfile: (req, res, next) => {
         User.findById(req.params.id).then
         ((_user) => {

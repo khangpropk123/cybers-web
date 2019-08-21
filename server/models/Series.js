@@ -3,6 +3,12 @@ let ArticleSeriesSchema = new mongoose.Schema(
     {
         name: String,
         title: String,
+        hashtag:String,
+        decription:String,
+        author:{
+            type: mongoose.Schema.Types.ObjectId,
+            ref:'User'
+        },
         series: [
             {
                 type: mongoose.Schema.Types.ObjectId,

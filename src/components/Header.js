@@ -26,7 +26,7 @@ class Header extends Component {
                 </a>
             </div>
             <ul className="nav navbar-nav filter-links">
-                <li><a className="" href="/">Top stories</a></li>
+                <li><a className="" href="/">New Feeds</a></li>
             </ul>
             <ul className="nav navbar-nav filter-links">
                 <li><a className="" href="/series">Explore Series</a></li>

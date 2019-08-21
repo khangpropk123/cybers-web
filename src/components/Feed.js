@@ -4,6 +4,7 @@ import {
     loadArticles
 } from './../redux/actions/actions'
 import AsideFeed from './AsideFeed'
+import './../assets/feed.css'
 
 const mapStateToProps = state => {
     return {
@@ -23,7 +24,7 @@ class Feed extends Component {
     
     render() {
     const articles = this.props.articles.reverse().map((article)=>
-                <div className="post-panel">
+                <div onClick={()=>{window.location.href=`/articleview/${article._id}`}} className="post-panel">
 
                     <div className="post-metadata">
                         <img alt="" className="avatar-image" src={article.author.provider_pic} height="40" width="40"/>

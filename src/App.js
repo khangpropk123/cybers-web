@@ -11,6 +11,7 @@ import AboutUs from './components/AboutUs'
 import MyProfile from './components/MyProfile'
 import EditArticle from './components/EditArticle'
 import Series from './components/Series'
+import SeriesReader from './components/SeriesReader'
 //import  from './component'
 
 class App extends Component {
@@ -30,6 +31,7 @@ class App extends Component {
                     <Route path="/articleview/:id" component={ArticleView} />
                     <Route path="/editor/" component={requireAuthentication(Editor)} />
                     <Route path="/edit-article/:id" component={requireAuthentication(EditArticle)} />
+                    <Route path="/series-reader/:id" component={SeriesReader}/>
                     <Route path="**" component={Feed} />
                 </Switch>
                
