@@ -52,22 +52,6 @@ class Series extends Component {
      })
    }
     render() {
-    const articles = this.props.articles.reverse().map((article)=>
-                <div className="post-panel"style={{marginTop:'20px'}}>
-                    <ol class="list">
-                            <li class="item">
-                                <h2 class="headline">Number one</h2><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veritatis, distinctio ad corporis, laboriosam unde provident, architecto tenetur ea odio debitis delectus explicabo eum obcaecati vitae facere iusto laborum consequuntur neque.</span></li>
-                            <li
-                                class="item">
-                                <h2 class="headline">Number two</h2><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veritatis, distinctio ad corporis, laboriosam unde provident, architecto tenetur ea odio debitis delectus explicabo eum obcaecati vitae facere iusto laborum consequuntur neque.</span></li>
-                                <li
-                                    class="item">
-                                    <h2 class="headline">Number three</h2><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veritatis, distinctio ad corporis, laboriosam unde provident, architecto tenetur ea odio debitis delectus explicabo eum obcaecati vitae facere iusto laborum consequuntur neque.</span></li>
-                        </ol>
-                    
-                </div>
-            )
-
         return ( 
             <div>
                 <div className="container-fluid main-container">

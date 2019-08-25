@@ -7,6 +7,10 @@ let ArticleSchema = new mongoose.Schema(
         description: String,
         feature_img: String,
         claps: Number,
+        series_id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Series'
+        },
         author: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User'
@@ -32,6 +36,10 @@ ArticleSchema.methods.comment = function(c) {
 }
 ArticleSchema.methods.addAuthor = function (author_id) {
     this.author = author_id
+    return this.save()
+}
+ArticleSchema.methods.setSeries = function(series) {
+    this.series_id = series
     return this.save()
 }
 ArticleSchema.methods.getUserArticle = function (_id) {

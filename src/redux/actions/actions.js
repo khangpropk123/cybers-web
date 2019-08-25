@@ -54,22 +54,19 @@ export function deleteArticle (article_id,token) {
     return (dispatch) => {
         axios.post(`${url}delarticle/${article_id}/${token}`)
         .then((res) => {
+            console.log(res.status)
+            autoLogout(res.status)
             let article = res.data
-            try {
-                if(res.data.flag){
-                    localStorage.clear()
-                }
-            } catch (error) {
-                
-            }
             dispatch({type: 'VIEW_ARTICLE', article})
-        }).catch((err) => console.log(err))
+        }).catch((err) => autoLogout())
+        window.location.reload()
     }
 }
 export function addSerie(id,article_id) {
     return (dispatch) => {
         axios.post(`${url}add-serie/${id}/${article_id}`)
         .then((res) => {
+            //autoLogout(res.status)
             let article = res.data
             try {
                 if(res.data.flag){
@@ -79,7 +76,7 @@ export function addSerie(id,article_id) {
                 
             }
             dispatch({type: 'VIEW_ARTICLE', res})
-        }).catch((err) => console.log(err))
+        }).catch((err) => autoLogout())
     }
 }
 export function getSeries () {
@@ -89,24 +86,18 @@ export function getSeries () {
             let series= res.data
             console.log(series)
             dispatch({type: 'LOAD_SERIES',series})
-        }).catch((err) => console.log(err))
+        }).catch((err) => autoLogout())
     }
 }
 export function updateArticle (article,token) {
     return (dispatch) => {
         axios.post(`${url}updatearticle/${article}/`)
         .then((res) => {
+            //autoLogout(res.status)
             let _article = res.data
-            try {
-                if(res.data.flag){
-                    localStorage.clear()
-                }
-            } catch (error) {
-                
-            }
             console.log(res.data)
             dispatch({type: 'VIEW_ARTICLE', _article})
-        }).catch((err) => console.log(err))
+        }).catch((err) => autoLogout())
     }
 }
 // article_id, author_id, comment
@@ -147,7 +138,12 @@ export function SignInUser (user_data) {
         }).catch((err)=>console.log(err))
     }
 }
-
+export function autoLogout(code){
+    
+        localStorage.clear();
+        window.location.reload();
+        return 1
+}
 export function toggleClose() {
     return (dispatch) => {
         dispatch({type: 'TOGGLE_MODAL', modalMode: false})

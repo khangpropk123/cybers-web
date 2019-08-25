@@ -8,10 +8,12 @@ import Editor from './components/Editor'
 import requireAuthentication from './utils/requireAuth'
 import SignInWith from './components/SignInWith'
 import AboutUs from './components/AboutUs'
+import Contact from './components/Contact'
 import MyProfile from './components/MyProfile'
 import EditArticle from './components/EditArticle'
 import Series from './components/Series'
 import SeriesReader from './components/SeriesReader'
+import Admin from './components/Admin'
 //import  from './component'
 
 class App extends Component {
@@ -25,6 +27,7 @@ class App extends Component {
                 
                     <Route exact path="/" component={Feed} />
                     <Route path="/aboutus" component={AboutUs}/>
+                    <Route path="/contact" component={Contact}/>
                     <Route path="/profile/:id" component={Profile} />
                     <Route path="/series" component={Series}/>
                     <Route path="/mypage" component={requireAuthentication(MyProfile)}/> 
@@ -32,6 +35,7 @@ class App extends Component {
                     <Route path="/editor/" component={requireAuthentication(Editor)} />
                     <Route path="/edit-article/:id" component={requireAuthentication(EditArticle)} />
                     <Route path="/series-reader/:id" component={SeriesReader}/>
+                    <Route path="/panel" component={Admin}/>
                     <Route path="**" component={Feed} />
                 </Switch>
                

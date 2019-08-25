@@ -4,6 +4,7 @@ import MediumEditor from 'medium-editor'
 import axios from 'axios'
 import EditorHeader from './EditorHeader'
 import './../../node_modules/medium-editor/dist/css/medium-editor.min.css'
+import { toast ,ToastContainer} from 'react-toastify';
 
 class Editor extends Component {
   constructor () {
@@ -13,7 +14,10 @@ class Editor extends Component {
       text: '',
       description: '',
       imgSrc: null,
-      loading: false
+      loading: false,
+      loading_label: 'Publishing',
+      isDone: false,
+      article_id:''
     }
     this.handleClick = this.handleClick.bind(this)
     this.previewImg = this.previewImg.bind(this)
@@ -22,18 +26,23 @@ class Editor extends Component {
 
   publishStory () {
     this.setState({
-      loading: true
+      loading: true,
+      loading_label: 'Publishing...',
+      isDone: false
+
     })
     console.log(this.state)  
     console.log('publishing...')
     const _url = process.env.NODE_ENV === 'production' ? "/api/" : "http://localhost:5000/api/"
     const formdata = new FormData()
+    var token = JSON.parse(localStorage.getItem('Auth')).jwtToken.access_token
     formdata.append('text', this.state.text)
     formdata.append('image', this.state.imgSrc)
     formdata.append('title', document.getElementById('editor-title').value)
     formdata.append('author_id', this.props.user._id)
     formdata.append('description', this.state.description)
     formdata.append('claps', 0)
+    formdata.append('token',token)
     axios.post(`${_url}article`, /*{
       text: this.state.text,Z
       title: document.getElementById('editor-title').value,
@@ -42,11 +51,26 @@ class Editor extends Component {
       feature_img: this.state.imgSrc,
       author_id: this.props.user._id
     }*/formdata).then((res) => {
-      this.setState({
-        loading: false
+      toast("😛😜😝 All Done!!",{
+        position: toast.POSITION.BOTTOM_RIGHT
       })
-      console.log(res.data)
-    }).catch((err)=>{console.log(err); this.setState({loading: false})})
+      console.log(res)
+      this.setState({
+        loading: false,
+        isDone: true,
+        loading_label: 'Go to Story',
+        article_id:res.data._id,
+
+
+      })
+    }).catch((err)=>{
+      console.log(err);
+      toast("😖😖😖 You do not has a permission!!",{
+        position: toast.POSITION.TOP_CENTER,
+        type:toast.TYPE.ERROR
+      })
+       this.setState({loading: false})
+    })
   } 
 
   handleClick () {
@@ -136,7 +160,7 @@ class Editor extends Component {
     render() {
         return ( 
 <div>
-  <EditorHeader publish={this.publishStory} loading={this.state.loading} />
+  <EditorHeader publish={this.publishStory} loading={this.state.loading} lable={this.state.loading_label} isDone={this.state.isDone} articleID={this.state.article_id}/>
     <div className="container-fluid main-container">
       <div className="row animated fadeInUp" data-animation="fadeInUp-fadeOutDown">
           <div id="main-post" className="col-xs-10 col-md-8 col-md-offset-2 col-xs-offset-1 main-content">
@@ -180,6 +204,7 @@ class Editor extends Component {
           </div>
       </div> 
     </div>
+    <ToastContainer/>
 </div>
         );
     }

@@ -2,6 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 
 class Header extends Component {
+    constructor(){
+        super()
+
+    }
+    componentWillMount(){
+        console.log(this.props.user)
+    }
     render() {
         return ( 
             <div>
@@ -32,7 +39,7 @@ class Header extends Component {
                 <li><a className="" href="/series">Explore Series</a></li>
             </ul>
             <ul className="nav navbar-nav filter-links">
-                <li><a className="" href="/aboutus">Contact</a></li>
+                <li><a className="" href="/contact">Contact</a></li>
             </ul>
             <ul className="nav navbar-nav filter-links">
                 <li><a className="" href="/aboutus">About Us</a></li>
@@ -40,6 +47,7 @@ class Header extends Component {
 
             <div className="folding-nav">
                 <ul className="nav navbar-nav navbar-right">
+                {this.props.isAuth ? <li className="new-post-button"><a className="button" style={{borderColor:'#00ab6b'}} data-behavior="trigger-overlay" href="/mypage">Point: <b style={{color:'#ff751a'}}>{this.props.user.point||0}</b></a></li> : ''}
                 {this.props.isAuth ? <li className="new-post-button"><a className="button" data-behavior="trigger-overlay" href="/mypage">My Profile</a></li> : ''}
                     {this.props.isAuth ? <li className="new-post-button"><a className="button" data-behavior="trigger-overlay" href="/editor">Write a story</a></li> : ''}
                     {this.props.isAuth ? '' : <li id="login" onClick={this.props.openSignInWith} className="sign-in-button"><a className="button green-border-button" data-behavior="trigger-overlay" href="#">Sign in / Sign up</a></li>}

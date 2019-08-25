@@ -5,12 +5,12 @@ const jwt = require('jsonwebtoken')
 const secret = "my_fucking_secret_string"
 function Authenticate(id){
     var payload = {_id:id}
-        var jwtToken = jwt.sign(payload, "my_fucking_secret_string", { expiresIn: '2 days' });
+        var jwtToken = jwt.sign(payload, "my_fucking_secret_string", { expiresIn: '30 days' });
         var jsonResponse = {'access_token': jwtToken}
         return jsonResponse
 };
 function isAuth(token){
-    jwt.verify(token,secret,(err,decoded)=>{
+  return jwt.verify(token,secret,(err,decoded)=>{
         if(err)
             return false
         else
@@ -19,6 +19,11 @@ function isAuth(token){
 }
 
 module.exports = {
+    getAll:(req,res)=>{
+        User.find({}).then(users => {
+            res.json(users)
+        })
+    },
     addUser: (req, res, next) => {
         User.findOne({email:req.body.email}).then((u)=>{
             if(u){
@@ -31,6 +36,8 @@ module.exports = {
                         followers: newUser.followers,
                         following: newUser.following,
                         name: newUser.name,
+                        post_permission:false,
+                        point:0,
                         provider: newUser.provider,
                         provider_id: newUser.provider_id,
                         provider_pic: newUser.provider_pic,
@@ -54,9 +61,11 @@ module.exports = {
                             following: newUser.following,
                             name: newUser.name,
                             provider: newUser.provider,
+                            post_permission: newUser.post_permission,
                             provider_id: newUser.provider_id,
                             provider_pic: newUser.provider_pic,
                             token: newUser.token,
+                            point: newUser.point,
                             _id: newUser._id,
                             jwtToken: Authenticate(newUser._id)
                         }
@@ -92,7 +101,7 @@ module.exports = {
                 return res.json({msg: "followed"})
             })
         }).catch(next)
-    },
+    },  
     getUserProfile: (req, res, next) => {
         User.findById(req.params.id).then
         ((_user) => {

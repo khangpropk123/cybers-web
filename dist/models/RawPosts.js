@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-let ArticleSchema = new mongoose.Schema(
+let RawPosts = new mongoose.Schema(
     {
         text: String,
         title: String,
@@ -26,25 +26,25 @@ let ArticleSchema = new mongoose.Schema(
         ]
     }
 );
-ArticleSchema.methods.clap = function() {
+RawPosts.methods.clap = function() {
     this.claps++
     return this.save()
 }
-ArticleSchema.methods.comment = function(c) {
+RawPosts.methods.comment = function(c) {
     this.comments.push(c)
     return this.save()
 }
-ArticleSchema.methods.addAuthor = function (author_id) {
+RawPosts.methods.addAuthor = function (author_id) {
     this.author = author_id
     return this.save()
 }
-ArticleSchema.methods.setSeries = function(series) {
+RawPosts.methods.setSeries = function(series) {
     this.series_id = series
     return this.save()
 }
-ArticleSchema.methods.getUserArticle = function (_id) {
+RawPosts.methods.getUserArticle = function (_id) {
     Article.find({'author': _id}).then((article) => {
         return article
     })
 }
-module.exports = mongoose.model('Article', ArticleSchema)
+module.exports = mongoose.model('Article', RawPosts)

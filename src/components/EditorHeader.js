@@ -21,11 +21,17 @@ class EditorHeader extends Component {
 
       <div className="collapse navbar-collapse">
         <ul className="nav navbar-nav navbar-right">
+          {this.props.isDone === false ? 
           <li className="publish-button">
             <button onClick={()=>this.props.publish()} className={this.props.loading === true ? "button green-inner-button dropdown-toggle" : "button green-border-button dropdown-toggle"} data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
               {this.props.loading === true ? 'Publishing' : 'Publish'} <i className="fa fa-globe"></i>
             </button>
-          </li>
+          </li> 
+          :
+          <li className="publish-button">
+            <button onClick={()=>window.location.href='/articleview/'+this.props.articleID} className="button green-inner-button dropdown-toggle">Go to Story <i className="fa fa-space-shuttle"></i>
+            </button>
+          </li> }
         </ul>
       </div> 
     </div>

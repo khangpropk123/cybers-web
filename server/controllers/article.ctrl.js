@@ -1,54 +1,72 @@
 /** */
 const Article = require('./../models/Article')
 const User = require('./../models/User')
+const Series = require('./../models/Series')
 const fs = require('fs')
 const cloudinary = require('cloudinary')
 const config = require('../settings/configs')
 const jwt = require('jsonwebtoken')
 const secret = config.secret
+const PointCtrl = require('./point.ctrl')
 
 function isAuth(token) {
-    jwt.verify(token, secret, (err, decoded) => {
-
-        return decoded
-    })
+    let result
+    
 }
 
 module.exports = {
     addArticle: (req, res, next) => {
-        console.log(req.body)
-        let {
-            text,
-            title,
-            claps,
-            description
-        } = req.body
-        //let obj = { text, title, claps, description, feature_img: _feature_img != null ? `/uploads/${_filename}` : '' }
-        if (req.files.image) {
-            cloudinary.uploader.upload(req.files.image.path, (result) => {
-                let obj = {
-                    text,
-                    title,
-                    claps,
-                    description,
-                    feature_img: result.url != null ? result.url : ''
-                }
-                saveArticle(obj)
-            }, {
-                resource_type: 'image',
-                eager: [{
-                    effect: 'sepia'
-                }]
-            })
-        } else {
-            saveArticle({
-                text,
-                title,
-                claps,
-                description,
-                feature_img: ''
-            })
+       // console.log(req.body.token)
+    jwt.verify(req.body.token, secret, (err, decoded) => {
+        if(!err){
+       let id = decoded._id
+       User.findById(id).then(user=>{
+           if (user.post_permission) {
+               let {
+                   text,
+                   title,
+                   claps,
+                   description
+               } = req.body
+               //let obj = { text, title, claps, description, feature_img: _feature_img != null ? `/uploads/${_filename}` : '' }
+               if (req.files.image) {
+                   cloudinary.uploader.upload(req.files.image.path, (result) => {
+                       let obj = {
+                           text,
+                           title,
+                           claps,
+                           description,
+                           feature_img: result.url != null ? result.url : ''
+                       }
+                       saveArticle(obj)
+                       PointCtrl.addPoint(id, config.Point.Post)
+                   }, {
+                       resource_type: 'image',
+                       eager: [{
+                           effect: 'sepia'
+                       }]
+                   })
+               } else {
+                   saveArticle({
+                       text,
+                       title,
+                       claps,
+                       description,
+                       feature_img: ''
+                   })
+                   PointCtrl.addPoint(id, config.Point.Post)
+               }
+
+           }
+           else{
+               res.sendStatus(401)
+           }
+           })
+          }
+        else{
+            res.send(401)
         }
+    })
 
         function saveArticle(obj) {
             new Article(obj).save((err, article) => {
@@ -135,6 +153,7 @@ module.exports = {
     clapArticle: (req, res, next) => {
         Article.findById(req.body.article_id).then((article) => {
             return article.clap().then(() => {
+                PointCtrl.addPoint(article.author,config.Point.Clap)
                 return res.json({
                     msg: "Done"
                 })
@@ -180,14 +199,21 @@ module.exports = {
         console.log((req.params.token))
         jwt.verify(req.params.token, secret, (err, decoded) => {
             if (err)
-                res.send(config.err_mess)
+                res.send(401)
             else {
                 console.log(decoded)
                 Article.findOneAndDelete({
                         _id: req.params.id,
                         author: decoded._id
                     }).then((status) => {
-                        console.log(status)
+                        Series.findById(status.series_id).then(series=>{
+                           if(series){
+                            return series.removeArticle(status._id).then(result =>{
+                                console.log(result)
+                            })
+                           }
+                           else return status
+                        })
                         res.send(status)
                     })
                     .catch(next)
@@ -235,7 +261,7 @@ module.exports = {
                         .catch(next)
                 }
             } else {
-                res.send(config.err_mess)
+                res.send(401)
             }
         })
 

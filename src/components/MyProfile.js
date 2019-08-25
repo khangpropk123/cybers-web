@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import FollowButton from './FollowButton'
 import Sweet from 'sweetalert2'
+import { ToastContainer, toast } from 'react-toastify'
 import { 
     getUserProfile, 
     deleteArticle,
@@ -15,6 +16,7 @@ const url = process.env.NODE_ENV === 'production' ? "/api/" : "http://localhost:
 const jwtToken =""
 class MyProfile extends Component {
 
+    sucsNofi = ()=>toast("Add to Series Succsessful!")
     componentDidMount() {
         document.body.className = 'users show'
     }
@@ -23,8 +25,10 @@ class MyProfile extends Component {
     }
     componentWillMount() {
         let id = JSON.parse(localStorage.getItem("Auth"));
-        console.log(JSON.parse(localStorage.getItem("Auth")).jwtToken.access_token || "ff")
-        this.props.getUserProfile(id._id)
+        if(id){
+            console.log(JSON.parse(localStorage.getItem("Auth")).jwtToken.access_token || "ff")
+            this.props.getUserProfile(id._id)
+        }
     }
     
     render() {
@@ -159,7 +163,7 @@ function ItemList ({items}) {
                             </a>
                             </div>
                             <div className="like-button-wrapper">
-                                <div className="button_to" method="get" action="">
+                                <div className="button_to" method="" action="">
                                     <button onClick={deleteArticle(article._id,JSON.parse(localStorage.getItem("Auth")).jwtToken.access_token||"")} className="like-button" data-behavior="trigger-overlay" type="submit"><i className="fa fa-trash-o"></i><span className="hide-text">Delete</span></button>
                                 </div>
                             </div>
@@ -194,7 +198,8 @@ function ItemList ({items}) {
                                           if (series) {
                                             Axios.post(url+`/add-article-to-serie/${series}/${article._id}/${JSON.parse(localStorage.getItem("Auth")).jwtToken.access_token}`)
                                             .then((data)=>{
-                                                Sweet.fire('You selected: ' + series)
+                                                toast("Add to Series Succsessful!")
+                                                Sweet.fire('Ok!')
                                             })
                                             
                                           }
@@ -211,6 +216,7 @@ function ItemList ({items}) {
             </div>
 
             </div>
+            <ToastContainer/>
             </div>
     )
 }

@@ -30,4 +30,8 @@ module.exports = (router) => {
     router
         .route('/user/follow')
         .post(usercontroller.followUser)
+    
+    router
+        .route('/get-all-user')
+        .post(usercontroller.getAll)
 }
