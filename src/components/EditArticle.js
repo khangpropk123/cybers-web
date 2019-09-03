@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import MediumEditor from 'medium-editor'
 import axios from 'axios'
 import EditorHeader from './EditorHeader'
+import { toast ,ToastContainer} from 'react-toastify';
 import './../../node_modules/medium-editor/dist/css/medium-editor.min.css'
 
 class EditArticle extends Component {
@@ -15,6 +16,10 @@ class EditArticle extends Component {
       imgSrc: null,
       loading: false,
       feature_img: '',
+      loading: false,
+      loading_label: 'Publishing',
+      isDone: false,
+      article_id:''
     }
     this.handleClick = this.handleClick.bind(this)
     this.previewImg = this.previewImg.bind(this)
@@ -23,7 +28,9 @@ class EditArticle extends Component {
 
   publishStory () {
     this.setState({
-      loading: true
+      loading: true,
+      loading_label: 'Publishing...',
+      isDone: false
     })
     console.log(this.state)  
     console.log('publishing...')
@@ -45,18 +52,27 @@ class EditArticle extends Component {
     feature_img: this.state.imgSrc,
     author_id: this.props.user._id
   }*/formdata).then((res) => {
-    this.setState({
-      loading: false
+      toast("😛😜😝 All Done!!",{
+        position: toast.POSITION.BOTTOM_RIGHT
+      })
+      console.log(res)
+      this.setState({
+        loading: false,
+        isDone: true,
+        loading_label: 'Go to Story',
+        article_id:res.data._id,
+
+
+      })
+    }).catch((err)=>{
+      console.log(err);
+      toast("😖😖😖 You do not has a permission!!",{
+        position: toast.POSITION.TOP_CENTER,
+        type:toast.TYPE.ERROR
+      })
+       this.setState({loading: false})
     })
-    console.log(res.data)
-    try {
-      if(res.data.flag)
-        localStorage.clear();
-    } catch (error) {
-      
-    }
-  }).catch((err)=>{console.log(err); this.setState({loading: false})})
-  } 
+  }
 
   handleClick () {
     console.log('clicked')
@@ -169,7 +185,7 @@ class EditArticle extends Component {
     render() {
         return ( 
 <div>
-  <EditorHeader publish={this.publishStory} loading={this.state.loading} />
+  <EditorHeader  loading={this.state.loading} publish={this.publishStory} loading={this.state.loading} lable={this.state.loading_label} isDone={this.state.isDone} articleID={this.state.article_id} />
     <div className="container-fluid main-container">
       <div className="row animated fadeInUp" data-animation="fadeInUp-fadeOutDown">
           <div id="main-post" className="col-xs-10 col-md-8 col-md-offset-2 col-xs-offset-1 main-content">
@@ -213,6 +229,7 @@ class EditArticle extends Component {
           </div>
       </div> 
     </div>
+    <ToastContainer/>
 </div>
         );
     }
