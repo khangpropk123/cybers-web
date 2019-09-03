@@ -234,7 +234,7 @@ module.exports = {
                         Article.findOneAndUpdate({_id:article.id,author:decoded._id}, {
                                 text: article.text,
                                 title: article.title,
-                                description: article.decription,
+                                description: article.description,
                                 feature_img: img
                             }).then((status) => {
                                 console.log(status)
@@ -252,7 +252,7 @@ module.exports = {
                     Article.findOneAndUpdate({_id:article.id,author:decoded._id}, {
                             text: article.text,
                             title: article.title,
-                            description: article.decription,
+                            description: article.description,
                             feature_img: img
                         }).then((status) => {
                             console.log(status)
@@ -261,7 +261,7 @@ module.exports = {
                         .catch(next)
                 }
             } else {
-                res.send(401)
+                res.sendStatus(401)
             }
         })
 
