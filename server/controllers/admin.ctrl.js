@@ -5,6 +5,7 @@ const MiddleWare = require('./../middlewares/middlewares')
 const info = require('systeminformation')
 const os = require('os')
 const os_uil = require('os-utils')
+const config = require('./../settings/configs')
 
 module.exports = {
     setPermit: (req, res) => {
@@ -91,5 +92,36 @@ module.exports = {
         })
             
         })
+    },
+    setData: (req,res)=>{
+        new Article(config.Data).save((err, article) => {
+            if (err)
+                res.send(err)
+            else if (!article)
+                res.send(400)
+            else {
+                return article.addAuthor("5d6e32bc143c10056d5a751b").then((_article) => {
+                    return res.send(_article)
+                })
+            }
+            next()
+        })
+    },
+    getAllUsers:  (req,res)=> {
+        User.find({}).then((result)=>{
+            console.log(result)
+            res.json(result)
+        })
+    },
+    setUser:(req,res,next)=>{
+            User(config.Accounts).save((err,mem)=>{
+                if (err)
+                res.send(err)
+            else if (!mem)
+                res.send(400)
+                else res.send(mem)
+            })
+           
     }
+    
 }

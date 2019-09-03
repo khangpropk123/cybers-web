@@ -25,5 +25,11 @@ module.exports = {
             res.json(result)
            
         })
+    },
+    getAllUsers:  (req,res)=> {
+        User.find({}).then((result)=>{
+            console.log(result)
+            res.json(result)
+        })
     }
 }

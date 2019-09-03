@@ -87,7 +87,7 @@ module.exports = {
             else if (!user)
                 res.send(404)
             else{
-            next() 
+            res.send(user)
             }
                       
         })

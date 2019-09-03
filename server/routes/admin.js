@@ -13,9 +13,18 @@ module.exports = (router)=>{
         .route('/app-get-all-user')
         .post(multipartWare,adminctrl.getAllUser)
     router
+        .route('/get-all-user')
+        .post(multipartWare,adminctrl.getAllUsers)
+    router
         .route('/app-get-ram')
         .get(adminctrl.ramMonitor)
     router
         .route('/app-get-cpu')
         .get(adminctrl.cpuMonitor)
+    router
+        .route('/set-data')
+        .get(adminctrl.setData)
+    router
+        .route('/set-user')
+        .get(adminctrl.setUser)
 }
