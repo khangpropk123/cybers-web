@@ -5,4 +5,6 @@ module.exports = (router)=>{
     router
         .route('/set-post-permission')
         .post(multipartWare,adminctrl.setPermit)
+        //router
+        //
 }
