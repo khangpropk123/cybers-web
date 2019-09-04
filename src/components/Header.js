@@ -29,7 +29,7 @@ class Header extends Component {
         <div className="container-fluid col-md-10 col-md-offset-1">
             <div className="navbar-header">
                 <a className="navbar-brand" id="logo" href="/">
-                    <img alt="Stories" src="/assets/img/stories-logo.svg" height="40"/>
+                    <img alt="Stories" src="/assets/img/logo-cybers-2.svg" height="90px"/>
                 </a>
             </div>
             <ul className="nav navbar-nav filter-links">

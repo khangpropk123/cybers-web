@@ -53,14 +53,14 @@ function createNewSerie() {
             },
             'Name of hashtag #1??',
             'Name of hashtag #2??',
-            'Serie decription???'
+            'Serie description???'
           ]).then((result) => {
             if (result.value) {
             let data = new FormData()
             data.append('name',result.value[0])
             data.append('title',result.value[1])
             data.append('hashtag',result.value[2])
-            data.append('decription',result.value[3])
+            data.append('description',result.value[3])
             data.append('token',JSON.parse(localStorage.getItem("Auth")).jwtToken.access_token)
             Axios.post(url +'add-serie/',data) 
               Sweet.fire({

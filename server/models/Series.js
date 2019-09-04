@@ -4,7 +4,7 @@ let ArticleSeriesSchema = new mongoose.Schema(
         name: String,
         title: String,
         hashtag:String,
-        decription:String,
+        description:String,
         author:{
             type: mongoose.Schema.Types.ObjectId,
             ref:'User'

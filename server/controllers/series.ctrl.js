@@ -8,24 +8,26 @@ const secret = config.secret
 
 module.exports = {
     addSerie: (req, res, next) => {
-        console.log(req.body)
-        // jwt.verify(req.params.token, config.secret, (err, decoded) => {
-        //     if (!err) {
-        //         let serie = {
-        //             name: req.params.name,
-        //             title: req.params.title,
-        //             author: decoded._id,
-        //             decription:req.params.decription,
-        //         }
-        //         SeriesArticle(serie).save((err, result) => {
-        //             if (!err)
-        //                 res.send(result)
-        //             console.log(result)
-        //         })
-        //     } else {
-        //         res.json(config.err_mess)
-        //     }
-        // })
+        //console.log(req.body)
+        jwt.verify(req.body.token, config.secret, (err, decoded) => {
+            if (!err) {
+                let serie = {
+                    name: req.body.name,
+                    title: req.body.title,
+                    hashtag: req.body.hashtag,
+                    author: decoded._id,
+                    description:req.body.description,
+                    series:[]
+                }
+                SeriesArticle(serie).save((err, result) => {
+                    if (!err)
+                        res.json(result)
+                    console.log(result)
+                })
+            } else {
+                res.statusCode = 401
+            }
+        })
 
     },
     addArticle: (req, res, next) => {
@@ -44,7 +46,7 @@ module.exports = {
                                 })
                     })
             } else {
-                res.send(401)
+                res.statusCode = 401
             }
         })
 
@@ -60,7 +62,7 @@ module.exports = {
                         next()
                     })
             } else
-                res.send(401)
+                res.statusCode = 401;
         })
 
     },
