@@ -34,7 +34,7 @@
 	font-size: 30px;
 }
 .card_series_right img {
-    object-fit: cover;
+    object-fit: fill;
     height: 450px;
     max-height: 100%;
     width: 300px;

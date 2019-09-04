@@ -109,7 +109,7 @@ function ItemList ({items}) {
                 </div>
             </div>
            <div style={{marginTop:'20px', textAlign:'center'}}> 
-            <button onClick={()=>{createNewSerie()}} id="btn-create-new" className="button green-border-button follow-button">Create new serie???</button>
+            <button onClick={()=>{createNewSerie()}} id="btn-create-new" className="button green-border-button follow-button">Create new series???</button>
             </div>
 
             <div className="posts-wrapper animated fadeInUp" data-animation="fadeInUp-fadeOutDown">

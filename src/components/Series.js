@@ -14,7 +14,6 @@ const mapStateToProps = state => {
         series: state.series.series
     }
 }
-
 class Series extends Component {
   constructor(props){
     super(props)
@@ -31,8 +30,9 @@ class Series extends Component {
    async componentWillMount() {
       this.props.loadArticles()
       this.props.getSeries()
+    console.log("ok");
      await Axios.get(url+'get-all').then(res=>{
-      console.log(res)
+      //console.log(this.props.articles)
         this.setState({
           series:res.data
         })
@@ -64,7 +64,7 @@ class Series extends Component {
                   </div>
                   <div className="card_series_right">
                   <div className="img_container">
-                  <img src="https://images.wallpaperscraft.com/image/mountains_lake_trees_144998_1366x768.jpg" alt="" />
+                  <img src={this.props.articles[Math.floor((Math.random() * serie.series.length) + 0)].feature_img} alt="" />
                   </div>
                   <div className="play_btn">
                   <a href={`series-reader/${serie._id}`} target="_blank">
